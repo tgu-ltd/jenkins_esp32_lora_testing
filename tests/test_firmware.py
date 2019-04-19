@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 
 VERSION = ''
 
+
 def test_firmware_directory_exists():
     ''' Do we have a firmware directory to store and retrive firmware bins from '''
     assert(os.path.isdir("firmware") is True)
@@ -21,18 +22,26 @@ def test_latest_firmware_version():
     url = 'https://micropython.org/download'
     page = urllib.request.urlopen(url)
     soup = BeautifulSoup(page.read(), 'html.parser')
-    href = soup.findAll('a', text=re.compile('esp32-'))[1]  # Get the second firware version
+    hrefs = soup.findAll('a', text=re.compile('esp32-'))
+
+    href = ''
+    # Find the nightly build, at the moment it is the one with more hyphens
+    for ref in hrefs:
+        if ref.contents[0].count('-') > 2:
+            href = ref
+            break
+
     download_url = '{0}{1}'.format(url.replace('/download', ''), href['href'])
     bins = glob.glob('firmware/*.bin')
     VERSION = href.contents[0]
 
-    # Do we already have the firmware?
+    # Do we already have the firmware already?
     for name in bins:
         if VERSION in name:
             firmware_downloaded = True
             break
 
-    # If not download it
+    # If not downloaded download it
     if not firmware_downloaded:
         of = '-Ofirmware/{0}'.format(VERSION)
         sp = subprocess.run(['wget', of, download_url], stdout=subprocess.PIPE)
