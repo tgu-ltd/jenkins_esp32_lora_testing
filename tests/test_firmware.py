@@ -74,19 +74,20 @@ def test_flash_firmware():
 
 
 def test_firmware_loaded():
+    got_version_file = False
     version_uploaded = False
-    got_version = False
     copy_write_copy = [
-        'pipenv', 'run', 'rshell', '-p', '/dev/ttyUSB0',
-        '--baud', '115200', '-f', './rshell/get_version.rshell'
+        'rshell', '-p', '/dev/ttyUSB0', '--baud', '115200',
+        '-f', './rshell/get_version.rshell'
     ]
     cmd = subprocess.run(copy_write_copy, stdout=subprocess.PIPE)
     if cmd.returncode == 0:
-        got_version = True
+        got_version_file = True
 
-    with open('../archive/firmware_version.txt') as f:
-        version = f.readlines()
+    with open('./archive/firmware_version.txt') as f:
+        version = ''.join(f.readlines())
         if ("sysname='esp32'" in version) and ("release" in version):
             version_uploaded = True
 
-    assert((got_version is True) and (version_uploaded is True))
+    assert(got_version_file is True)
+    assert(version_uploaded is True)
