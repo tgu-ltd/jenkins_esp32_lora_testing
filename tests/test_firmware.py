@@ -5,7 +5,7 @@ import subprocess
 import urllib.request
 from bs4 import BeautifulSoup
 
-VERSION = ''
+DOWNLOADED_VERSION = ''
 
 
 def test_firmware_directory_exists():
@@ -15,7 +15,7 @@ def test_firmware_directory_exists():
 
 def test_latest_firmware_version():
     ''' Get/Find the latest firmware version '''
-    global VERSION
+    global DOWNLOADED_VERSION
 
     downloaded = True
     firmware_downloaded = False
@@ -33,17 +33,17 @@ def test_latest_firmware_version():
 
     download_url = '{0}{1}'.format(url.replace('/download', ''), href['href'])
     bins = glob.glob('firmware/*.bin')
-    VERSION = href.contents[0]
+    DOWNLOADED_VERSION = href.contents[0]
 
     # Do we already have the firmware already?
     for name in bins:
-        if VERSION in name:
+        if DOWNLOADED_VERSION in name:
             firmware_downloaded = True
             break
 
     # If not downloaded download it
     if not firmware_downloaded:
-        of = '-Ofirmware/{0}'.format(VERSION)
+        of = '-Ofirmware/{0}'.format(DOWNLOADED_VERSION)
         sp = subprocess.run(['wget', of, download_url], stdout=subprocess.PIPE)
         if sp.returncode != 0:
             downloaded = False
@@ -52,7 +52,7 @@ def test_latest_firmware_version():
 
 
 def test_flash_firmware():
-    global VERSION
+    global DOWNLOADED_VERSION
     flashed = False
 
     erase = [
@@ -65,9 +65,28 @@ def test_flash_firmware():
             'esptool.py', '--chip', 'esp32', '-p', '/dev/ttyUSB0',
             '--baud', '115200', 'write_flash', '-z', '--flash_mode', 'dio',
             '--flash_freq', '40m', '--flash_size', '4MB', '0x1000',
-            './firmware/{0}'.format(VERSION)
+            './firmware/{0}'.format(DOWNLOADED_VERSION)
         ]
         cmd = subprocess.run(flash, stdout=subprocess.PIPE)
         if cmd.returncode == 0:
             flashed = True
     assert(flashed is True)
+
+
+def test_firmware_loaded():
+    version_uploaded = False
+    got_version = False
+    copy_write_copy = [
+        'pipenv', 'run', 'rshell', '-p', '/dev/ttyUSB0',
+        '--baud', '115200', '-f', './rshell/get_version.rshell'
+    ]
+    cmd = subprocess.run(copy_write_copy, stdout=subprocess.PIPE)
+    if cmd.returncode == 0:
+        got_version = True
+
+    with open('../archive/firmware_version.txt') as f:
+        version = f.readlines()
+        if ("sysname='esp32'" in version) and ("release" in version):
+            version_uploaded = True
+
+    assert((got_version is True) and (version_uploaded is True))
