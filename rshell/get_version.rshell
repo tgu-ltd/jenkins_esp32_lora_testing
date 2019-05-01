@@ -1,0 +1,3 @@
+cp ./esp32/firmware_version.py /pyboard/
+repl ~ import firmware_version ~
+cp /pyboard/firmware_version.txt ./archive/firmware_version.txt
