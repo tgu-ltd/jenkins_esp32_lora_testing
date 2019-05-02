@@ -19,23 +19,26 @@ def test_latest_firmware_version():
 
     downloaded = True
     firmware_downloaded = False
+
+    # Download the latest firmware version if we do not have a copy already
     url = 'https://micropython.org/download'
     page = urllib.request.urlopen(url)
     soup = BeautifulSoup(page.read(), 'html.parser')
     hrefs = soup.findAll('a', text=re.compile('esp32-'))
 
+    # Find the nightly build. We determine this by using the name
+    # with more hyphens in it. This is prone to change
     href = ''
-    # Find the nightly build, at the moment it is the one with more hyphens
     for ref in hrefs:
         if ref.contents[0].count('-') > 2:
             href = ref
             break
 
+    DOWNLOADED_VERSION = href.contents[0]
     download_url = '{0}{1}'.format(url.replace('/download', ''), href['href'])
     bins = glob.glob('firmware/*.bin')
-    DOWNLOADED_VERSION = href.contents[0]
 
-    # Do we already have the firmware already?
+    # Do we already have the firmware?
     for name in bins:
         if DOWNLOADED_VERSION in name:
             firmware_downloaded = True
@@ -53,8 +56,10 @@ def test_latest_firmware_version():
 
 def test_flash_firmware():
     global DOWNLOADED_VERSION
+
     flashed = False
 
+    # Flash the esp32 device with the firmware
     erase = [
         'esptool.py', '-p', '/dev/ttyUSB0',
         '--baud', '115200', '--after', 'no_reset', 'erase_flash'
@@ -74,20 +79,32 @@ def test_flash_firmware():
 
 
 def test_firmware_loaded():
-    got_version_file = False
-    version_uploaded = False
-    copy_write_copy = [
+    global DOWNLOADED_VERSION
+
+    rshell_completed = False
+    firmware_uploaded = False
+
+    # Use rshell to copy the firmware_version.py code to the esp32 and
+    # execute it so the output can be copied back for the tests to examine
+
+    rshell_cmd = [
         'rshell', '-p', '/dev/ttyUSB0', '--baud', '115200',
         '-f', './rshell/get_version.rshell'
     ]
-    cmd = subprocess.run(copy_write_copy, stdout=subprocess.PIPE)
+    cmd = subprocess.run(rshell_cmd, stdout=subprocess.PIPE)
     if cmd.returncode == 0:
-        got_version_file = True
+        rshell_completed = True
 
+    # Shorten the downloaded version name
+    version = DOWNLOADED_VERSION[DOWNLOADED_VERSION.rindex('-'):].replace('.bin', '')
+    print(DOWNLOADED_VERSION)
+    print(version)
+
+    # Look for the downloaded version name in the outputted file from the esp32 device
     with open('./archive/firmware_version.txt') as f:
-        version = ''.join(f.readlines())
-        if ("sysname='esp32'" in version) and ("release" in version):
-            version_uploaded = True
+        esp32_output = ''.join(f.readlines())
+        if version in esp32_output:
+            firmware_uploaded = True
 
-    assert(got_version_file is True)
-    assert(version_uploaded is True)
+    assert(rshell_completed is True)
+    assert(firmware_uploaded is True)
