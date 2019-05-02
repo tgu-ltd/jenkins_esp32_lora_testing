@@ -97,8 +97,6 @@ def test_firmware_loaded():
 
     # Shorten the downloaded version name
     version = DOWNLOADED_VERSION[DOWNLOADED_VERSION.rindex('-'):].replace('.bin', '')
-    print(DOWNLOADED_VERSION)
-    print(version)
 
     # Look for the downloaded version name in the outputted file from the esp32 device
     with open('./archive/firmware_version.txt') as f:
