@@ -1,0 +1,3 @@
+[submodule "esp32/lora"]
+	path = esp32/lora
+	url = https://github.com/lemariva/uPyLora
