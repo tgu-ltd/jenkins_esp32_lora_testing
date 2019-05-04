@@ -1,6 +1,7 @@
 import os
 import re
 import glob
+import pytest
 import subprocess
 import urllib.request
 from bs4 import BeautifulSoup
@@ -8,11 +9,13 @@ from bs4 import BeautifulSoup
 DOWNLOADED_VERSION = ''
 
 
+@pytest.mark.run(order=1)
 def test_firmware_directory_exists():
-    ''' Do we have a firmware directory to store and retrive firmware bins from '''
+    ''' Do we have a firmware directory to store and retrieve firmware bins from '''
     assert(os.path.isdir("firmware") is True)
 
 
+@pytest.mark.run(after='test_firmware_directory_exists')
 def test_latest_firmware_version():
     ''' Get/Find the latest firmware version '''
     global DOWNLOADED_VERSION
@@ -54,6 +57,7 @@ def test_latest_firmware_version():
     assert(downloaded is True)
 
 
+@pytest.mark.run(after='test_latest_firmware_version')
 def test_flash_firmware():
     global DOWNLOADED_VERSION
 
@@ -78,6 +82,7 @@ def test_flash_firmware():
     assert(flashed is True)
 
 
+@pytest.mark.run(after='test_flash_firmware')
 def test_firmware_loaded():
     global DOWNLOADED_VERSION
 
