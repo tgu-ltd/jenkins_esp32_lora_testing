@@ -1,6 +1,6 @@
-mkdir /pyboard/lora
 cp ./esp32/main.py /pyboard/
-cp ./esp32/lora/sx127x.py /pyboard/lora/
-cp ./esp32/lora/controller_esp32.py /pyboard/lora/
-repl ~ import main ~
+cp ./esp32/lora/sx127x.py /pyboard/
+cp ./esp32/lora/controller.py /pyboard/
+cp ./esp32/lora/controller_esp32.py /pyboard/
+repl ~ import main
 cp /pyboard/lora_output.txt ./archive/
