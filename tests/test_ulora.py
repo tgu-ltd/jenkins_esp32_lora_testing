@@ -3,7 +3,8 @@ import pytest
 
 
 @pytest.mark.run(after='test_firmware_loaded')
-def test_lora_uploaded():
+def test_lora_code_uploaded():
+    ''' Test that the LoRa main and library code was uploaded to the device '''
     rshell_completed = False
     rshell_cmd = [
         'rshell', '-p', '/dev/ttyUSB0', '--baud', '115200',
@@ -18,6 +19,7 @@ def test_lora_uploaded():
 
 @pytest.mark.run(after='test_lora_uploaded')
 def test_lora_chirp_output_file():
+    ''' Test that the main LoRa code outputted a file with 10 lines of chip response  '''
 
     expected_lines = 10
     correct_sequence = 0
