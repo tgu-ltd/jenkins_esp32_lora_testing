@@ -39,5 +39,5 @@ def main():
         f.write(''.join(output))
 
 
-if __name__ in ['__main__', 'main']:
+if __name__ in '__main__':
     main()
