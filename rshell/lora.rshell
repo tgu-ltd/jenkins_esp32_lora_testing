@@ -3,4 +3,5 @@ cp ./esp32/lora/sx127x.py /pyboard/
 cp ./esp32/lora/controller.py /pyboard/
 cp ./esp32/lora/controller_esp32.py /pyboard/
 repl ~ import main ~
+!sleep 10
 cp /pyboard/lora_output.txt ./archive/
