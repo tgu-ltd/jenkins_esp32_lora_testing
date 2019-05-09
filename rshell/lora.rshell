@@ -6,3 +6,4 @@ repl ~ import main ~
 !sleep 15
 cp /pyboard/lora_output.txt ./archive/
 rm /pyboard/lora_output.txt
+!sleep 1

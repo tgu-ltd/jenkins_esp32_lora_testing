@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup
 DOWNLOADED_VERSION = ''
 
 
-@pytest.mark.run(order=1)
+@pytest.mark.order1
 def test_firmware_directory_exists():
-    ''' Do we have a firmware directory to store and retrieve firmware bins from '''
+    ''' Do we have a firmware directory to store and retrieve firmware bins '''
     assert(os.path.isdir("firmware") is True)
 
 
@@ -59,6 +59,7 @@ def test_latest_firmware_version():
 
 @pytest.mark.run(after='test_latest_firmware_version')
 def test_flash_firmware():
+    ''' Test the uploadeding of the firmware completed  '''
     global DOWNLOADED_VERSION
 
     flashed = False
@@ -84,6 +85,7 @@ def test_flash_firmware():
 
 @pytest.mark.run(after='test_flash_firmware')
 def test_firmware_loaded():
+    ''' Test that the firmware was uploaded by looking at the version on the device  '''
     global DOWNLOADED_VERSION
 
     rshell_completed = False
