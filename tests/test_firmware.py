@@ -19,7 +19,6 @@ def test_firmware_directory_exists():
 def test_latest_firmware_version():
     ''' Get/Find the latest firmware version '''
     global DOWNLOADED_VERSION
-
     downloaded = True
     firmware_downloaded = False
 
@@ -61,7 +60,6 @@ def test_latest_firmware_version():
 def test_flash_firmware():
     ''' Test the uploadeding of the firmware completed  '''
     global DOWNLOADED_VERSION
-
     flashed = False
 
     # Flash the esp32 device with the firmware
@@ -87,7 +85,6 @@ def test_flash_firmware():
 def test_firmware_loaded():
     ''' Test that the firmware was uploaded by looking at the version on the device  '''
     global DOWNLOADED_VERSION
-
     rshell_completed = False
     firmware_uploaded = False
 

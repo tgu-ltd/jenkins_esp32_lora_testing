@@ -6,6 +6,7 @@ import pytest
 def test_lora_code_uploaded():
     ''' Test LoRa main and library code was uploaded to the device '''
     rshell_completed = False
+
     rshell_cmd = [
         'rshell', '-p', '/dev/ttyUSB0', '--baud', '115200',
         '-f', './rshell/lora.rshell'
@@ -19,9 +20,9 @@ def test_lora_code_uploaded():
 @pytest.mark.run(after='test_lora_uploaded')
 def test_lora_chirp_output_file():
     ''' Test the main LoRa code outputted a file with 10 lines of chip response  '''
-
     expected_chirps = 10
     chirp_sequence = 0
+
     with open('./archive/lora_output.txt', 'r') as f:
         for i, line in enumerate(f.readlines()):
             if '{0} RSSI:'.format(i) in line:
