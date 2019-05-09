@@ -4,7 +4,7 @@
 ## Creating tests with Jenkins and pytest
 -----------------------------------------
 
-This repository contains pytest cases, MicroPython code and rshell scripts that determine if an esp32 LoRa development board transmits a radio signal. The main purpose of this project is to create a test suite that will ...
+This repository contains pytest cases, MicroPython code and rshell scripts that determine if an esp32 LoRa development board transmits a radio signal. The main purpose of this project is to create a test suite to be executed in Jenkins which will ...
 
 * Load the latest MicroPython firmware onto a esp32 device
 * Load and execute MicroPython code on the esp32 device
