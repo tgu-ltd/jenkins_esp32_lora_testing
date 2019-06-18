@@ -8,7 +8,7 @@ This repository contains pytest cases, MicroPython code and rshell scripts that 
 
 * Load the latest MicroPython firmware onto a esp32 device
 * Load and execute MicroPython code on the esp32 device
-* Listen for LoRa chips with an SDR
+* Listen for LoRa chirps with an SDR
 
 To achieve this Jenkins will have to ...
 
