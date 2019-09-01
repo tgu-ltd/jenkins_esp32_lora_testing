@@ -20,4 +20,4 @@ To achieve this Jenkins will have to ...
 * Archive outputs from the embedded device
 * Tag a git repository with successful builds
 
-The full article for this repository can be found at https://tgu-ltd.uk/creating-tests
+The full article for this repository can be found at https://tgu-ltd.uk/esp32_testing
