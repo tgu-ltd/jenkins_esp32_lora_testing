@@ -21,6 +21,7 @@ rshell = "*"
 six = "*"
 pytest-html = "*"
 pytest-ordering = "*"
+bs4 = "*"
 
 [requires]
 python_version = "3.6"
