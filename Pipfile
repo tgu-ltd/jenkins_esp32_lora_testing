@@ -19,6 +19,8 @@ pytest = "*"
 pyudev = "*"
 rshell = "*"
 six = "*"
+pytest-html = "*"
+pytest-ordering = "*"
 
 [requires]
 python_version = "3.6"

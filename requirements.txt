@@ -11,6 +11,9 @@ pyaes==1.6.1
 pyparsing==2.4.2
 pyserial==3.4
 pytest==5.2.1
+pytest-html==2.0.0
+pytest-metadata==1.8.0
+pytest-ordering==0.6
 pyudev==0.21.0
 rshell==0.0.26
 six==1.12.0
