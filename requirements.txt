@@ -4,13 +4,13 @@ beautifulsoup4==4.11.1
 bitstring==3.1.9
 bs4==0.0.1
 cffi==1.15.1
-cryptography==38.0.3
+cryptography==38.0.4
 ecdsa==0.18.0
-esptool==4.3
-exceptiongroup==1.0.0
+esptool==4.4
+exceptiongroup==1.0.4
 iniconfig==1.1.1
 more-itertools==9.0.0
-packaging==21.3
+packaging==22.0
 pluggy==1.0.0
 pyaes==1.6.1
 pycparser==2.21
