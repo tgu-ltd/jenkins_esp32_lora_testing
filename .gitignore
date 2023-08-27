@@ -107,3 +107,6 @@ report.xml
 firmware/*
 archive/*
 html/*
+
+Pipfile
+Pipfile.lock
